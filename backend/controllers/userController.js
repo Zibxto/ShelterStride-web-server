@@ -12,6 +12,12 @@ async function checkUserRank(req, res, next) {
         // Fetch the user's rank from the database
         const user = await User.findByPk(userId);
 
+        // Confirm if user is logged in
+        if(user.tokenexpire == 0) {
+            res.status(403).json({ message: "Login to access your account."});
+            next();
+        }
+
         if (user && user.rank == 1) {
             console.log(user);
             console.log(user.rank);
@@ -36,6 +42,12 @@ async function checkUserId(req, res, next) {
 
         // Fetch the user's id from the database
         const user = await User.findByPk(userId);
+
+        // Confirm if user is logged in
+        if(user.tokenexpire == 0) {
+            res.status(403).json({ message: "Login to access your account."});
+            next();
+        }
 
         if (user && user.id == userParamId || user.rank == 1) {
             console.log(user);
@@ -98,6 +110,22 @@ async function updateUser(req, res, next) {
     }
 }
 
+async function logoutUser(req, res, next) {
+    try {
+        const user = await User.findByPk(req.params.id);
+        if (user) {
+            await user.update(req.body);
+            res.json({"message": "User logged out Successfully", "data": user});
+        } else {
+            res.status(404).json({
+                message: 'User not found'
+            });
+        }
+    } catch (error) {
+        next(error);
+    }
+}
+
 async function deleteUser(req, res, next) {
     try {
         const user = await User.findByPk(req.params.id);
@@ -119,6 +147,7 @@ module.exports = {
     addUser,
     getUsers: [checkUserRank, getUsers],
     getUserById: [checkUserId, getUserById],
-    updateUser,
-    deleteUser
+    updateUser: [checkUserId, updateUser],
+    deleteUser: [checkUserId, deleteUser],
+    logoutUser: [checkUserId, logoutUser]
 }

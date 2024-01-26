@@ -14,13 +14,13 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use("/signup", signupRouter);
+app.use("/api/v1/signup", signupRouter);
 
-app.use('/', authRoute);
+app.use('/api/v1/', authRoute);
 // app.use('/books', passport.authenticate('jwt', { session: false }), booksRoute);
-app.use("/users", passport.authenticate('jwt', { session: false }), userRouter);
+app.use("/api/v1/users", passport.authenticate('jwt', { session: false }), userRouter);
 
-app.get('/', (req, res) => {
+app.get('/api/v1/', (req, res) => {
     res.send('Welcome to the ShelterStride API');
 })
 

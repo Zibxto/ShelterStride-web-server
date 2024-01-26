@@ -7,6 +7,7 @@ const signupRouter = express.Router();
 userRouter.get('/', userController.getUsers);
 userRouter.get('/:id', userController.getUserById);
 userRouter.put('/:id', userController.updateUser);
+userRouter.put('/logout/:id', userController.logoutUser);
 userRouter.delete('/:id', userController.deleteUser);
 
 signupRouter.post('/', userController.addUser);

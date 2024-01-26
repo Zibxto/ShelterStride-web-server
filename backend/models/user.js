@@ -54,6 +54,10 @@ module.exports = (sequelize, DataTypes) => {
         accounttype: {
             type: DataTypes.STRING
         },
+        tokenexpire: {
+            type: DataTypes.STRING,
+            defaultValue: '1h'
+        },
     })
 
     // Hash the password before saving it to the database
