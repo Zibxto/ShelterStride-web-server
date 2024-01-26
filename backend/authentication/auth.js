@@ -1,8 +1,13 @@
 const passport = require('passport');
 const { Strategy: LocalStrategy } = require('passport-local');
 const { Strategy: JWTStrategy, ExtractJwt } = require('passport-jwt');
-const { User } = require('../models/user'); // Assuming your Sequelize model is named 'User'
-// const bcrypt = require('bcrypt');
+// const { User } = require('../models/user'); // Assuming your Sequelize model is named 'User'
+const db = require('../models');
+
+// Get Models
+const User = db.users;
+
+const bcrypt = require('bcrypt');
 
 passport.use(
   new JWTStrategy(
@@ -56,6 +61,8 @@ passport.use(
     },
     async (email, password, done) => {
       try {
+        console.log(email, password);
+        console.log(User);
         const user = await User.findOne({ where: { email } });
 
         if (!user) {
