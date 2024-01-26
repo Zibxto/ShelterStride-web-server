@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const { INTEGER } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
     const User = sequelize.define("user", {
@@ -6,6 +7,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true
+        },
+        rank: {
+            type: DataTypes.INTEGER,
+            defaultValue: 0
         },
         usertype: {
             type: DataTypes.STRING,
@@ -21,7 +26,8 @@ module.exports = (sequelize, DataTypes) => {
         },
         email: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: false,
+            unique: true
         },
         phone: {
             type: DataTypes.STRING
