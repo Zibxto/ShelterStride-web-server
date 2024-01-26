@@ -14,10 +14,10 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+app.use("/signup", signupRouter);
+
 app.use('/', authRoute);
 // app.use('/books', passport.authenticate('jwt', { session: false }), booksRoute);
-
-app.use("/signup", signupRouter);
 app.use("/users", passport.authenticate('jwt', { session: false }), userRouter);
 
 app.get('/', (req, res) => {

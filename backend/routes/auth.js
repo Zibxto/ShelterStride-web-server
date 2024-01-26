@@ -24,7 +24,7 @@ authRouter.post(
                     async (error) => {
                         if (error) return next(error);
 
-                        const body = { _id: user._id, email: user.email };
+                        const body = { id: user.id, email: user.email };
                         //ADD EXPIRATION TIME, ONCE EXCEEDED, REFRESH TOKEN IS REQUIRED, AND USER IS LOGGED OUT
                         // OR THE USER NEEDS TO LOGIN AGAIN
                         const token = jwt.sign({ user: body }, process.env.JWT_SECRET, { expiresIn: '1h' });
