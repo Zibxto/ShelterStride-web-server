@@ -37,7 +37,7 @@ async function checkUserId(req, res, next) {
         // Fetch the user's id from the database
         const user = await User.findByPk(userId);
 
-        if (user && user.id == userParamId) {
+        if (user && user.id == userParamId || user.rank == 1) {
             console.log(user);
             console.log(user.id);
             console.log(userParamId)
@@ -118,7 +118,7 @@ async function deleteUser(req, res, next) {
 module.exports = {
     addUser,
     getUsers: [checkUserRank, getUsers],
-    getUserById,
+    getUserById: [checkUserId, getUserById],
     updateUser,
     deleteUser
 }
