@@ -37,9 +37,9 @@ passport.use(
     },
     async (req, email, password, done) => {
       try {
-        const user = await User.create({ email, password });
+        // const user = await User.create({ email, password });
 
-        return done(null, user);
+        // return done(null, user);
       } catch (error) {
         done(error);
       }
