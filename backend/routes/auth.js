@@ -23,7 +23,7 @@ authRouter.post(
                 req.login(user, { session: false },
                     async (error) => {
                         if (error) return next(error);
-                        const tokenExpire = user.tokenexpire
+                        const tokenExpire = user.tokenexpire;
 
                         const body = { id: user.id, email: user.email };
                         //ADD EXPIRATION TIME, ONCE EXCEEDED, REFRESH TOKEN IS REQUIRED, AND USER IS LOGGED OUT

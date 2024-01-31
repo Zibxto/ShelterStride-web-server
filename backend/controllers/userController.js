@@ -2,6 +2,7 @@ const db = require('../models');
 
 // Get Models
 const User = db.users
+const Donation = db.donations
 
 // Middleware function to check user rank
 async function checkUserRank(req, res, next) {
@@ -19,8 +20,8 @@ async function checkUserRank(req, res, next) {
         }
 
         if (user && user.rank == 1) {
-            console.log(user);
-            console.log(user.rank);
+            // console.log(user);
+            // console.log(user.rank);
             // If the user is found and has a rank of 1, proceed to the next middleware
             next();
         } else {
@@ -50,9 +51,9 @@ async function checkUserId(req, res, next) {
         }
 
         if (user && user.id == userParamId || user.rank == 1) {
-            console.log(user);
-            console.log(user.id);
-            console.log(userParamId)
+            // console.log(user);
+            // console.log(user.id);
+            // console.log(userParamId)
             // If the user is found and has a rank of 1, proceed to the next middleware
             next();
         } else {
@@ -142,6 +143,45 @@ async function deleteUser(req, res, next) {
     }
 }
 
+async function addDonation(req, res, next) {
+    let userInfo = req.body;
+    userInfo.user_id = req.user.id;
+    userInfo.firstname = req.user.firstname;
+    userInfo.lastname = req.user.lastname;
+    userInfo.email = req.user.email;
+    console.log(userInfo);
+    try {
+        const donation = await Donation.create(userInfo);
+        res.status(201).json({"message": "Successful", "data":donation});
+    } catch (error) {
+        next(error);
+    }
+
+}
+
+async function getDonations(req, res, next) {
+    try {
+        console.log(req.body)
+        const donation = await Donation.findAll()
+        res.json({"message": "Successful", "data":donation})
+    } catch (err) {
+        next(err)
+    }
+}
+
+async function getUserByIdDonation(req, res, next) {
+    try {
+        const donation = await Donation.findAll({
+            where: {
+              user_id: req.params.id
+            }
+          });
+        res.json({"message": "Successful", "data":donation})
+    } catch (err) {
+        next(err)
+    }
+}
+
 
 module.exports = {
     addUser,
@@ -149,5 +189,8 @@ module.exports = {
     getUserById: [checkUserId, getUserById],
     updateUser: [checkUserId, updateUser],
     deleteUser: [checkUserId, deleteUser],
-    logoutUser: [checkUserId, logoutUser]
+    logoutUser: [checkUserId, logoutUser],
+    getDonations: [checkUserRank, getDonations],
+    addDonation: [checkUserId, addDonation],
+    getUserByIdDonation: [checkUserId, getUserByIdDonation]
 }

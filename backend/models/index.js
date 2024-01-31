@@ -26,6 +26,7 @@ db.Sequelize = Sequelize;
 
 // Add our tables
 db.users = require('./user')(sequelize, DataTypes);
+db.donations = require('./donation')(sequelize, DataTypes);
 
 // sync all models
 // force: false will not drop the table if it already exists

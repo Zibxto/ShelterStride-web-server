@@ -69,6 +69,8 @@ passport.use(
           return done(null, false, { message: 'User not found' });
         }
 
+        await user.update({'tokenexpire': '1h'});
+
         const validate = await bcrypt.compare(password, user.password);
 
         if (!validate) {
