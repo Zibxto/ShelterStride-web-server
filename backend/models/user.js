@@ -54,6 +54,9 @@ module.exports = (sequelize, DataTypes) => {
         accounttype: {
             type: DataTypes.STRING
         },
+        companyname: {
+            type: DataTypes.STRING
+        },
         tokenexpire: {
             type: DataTypes.STRING,
             defaultValue: '1h'
