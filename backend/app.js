@@ -2,6 +2,7 @@ const express = require('express');
 const passport = require('passport');
 const bodyParser = require('body-parser');
 // const booksRoute = require('./routes/books');
+const cors = require('cors');
 require('dotenv').config();
 require("./authentication/auth"); // Signup and login authentication middleware
 const { userRouter, signupRouter, donationRouter } = require('./routes/user');
@@ -10,6 +11,9 @@ const authRoute = require('./routes/auth');
 const PORT = process.env.PORT || 3001;
 
 const app = express();
+
+// Use cors middleware
+app.use(cors());
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
