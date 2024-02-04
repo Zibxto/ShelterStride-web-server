@@ -59,7 +59,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         tokenexpire: {
             type: DataTypes.STRING,
-            defaultValue: '1h'
+            defaultValue: '0'
         },
     })
 

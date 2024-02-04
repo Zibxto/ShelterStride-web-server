@@ -184,6 +184,7 @@ async function getUserByIdDonation(req, res, next) {
 
 
 module.exports = {
+    checkUserRank,
     addUser,
     getUsers: [checkUserRank, getUsers],
     getUserById: [checkUserId, getUserById],
