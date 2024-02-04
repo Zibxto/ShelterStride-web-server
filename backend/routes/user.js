@@ -12,6 +12,8 @@ userRouter.put('/:id/logout', userController.logoutUser);
 userRouter.delete('/:id', userController.deleteUser);
 userRouter.post('/:id/donation', userController.addDonation);
 userRouter.get('/:id/donation', userController.getUserByIdDonation);
+userRouter.post('/:id/visit', userController.addVisit);
+userRouter.get('/:id/visit', userController.getVisit);
 
 signupRouter.post('/', userController.addUser);
 donationRouter.get('/', userController.getDonations);

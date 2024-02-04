@@ -28,6 +28,7 @@ db.Sequelize = Sequelize;
 db.users = require('./user')(sequelize, DataTypes);
 db.donations = require('./donation')(sequelize, DataTypes);
 db.properties = require('./property')(sequelize, DataTypes);
+db.shedulevisits = require('./schedule_visit')(sequelize, DataTypes);
 
 // sync all models
 // force: false will not drop the table if it already exists

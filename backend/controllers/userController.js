@@ -3,6 +3,7 @@ const db = require('../models');
 // Get Models
 const User = db.users
 const Donation = db.donations
+const Visit = db.shedulevisits
 
 // Middleware function to check user rank
 async function checkUserRank(req, res, next) {
@@ -149,7 +150,6 @@ async function addDonation(req, res, next) {
     userInfo.firstname = req.user.firstname;
     userInfo.lastname = req.user.lastname;
     userInfo.email = req.user.email;
-    console.log(userInfo);
     try {
         const donation = await Donation.create(userInfo);
         res.status(201).json({"message": "Successful", "data":donation});
@@ -182,6 +182,36 @@ async function getUserByIdDonation(req, res, next) {
     }
 }
 
+async function addVisit(req, res, next) {
+    let visitInfo = req.body;
+    visitInfo.user_id = req.user.id;
+    visitInfo.firstname = req.user.firstname;
+    visitInfo.lastname = req.user.lastname;
+    visitInfo.email = req.user.email;
+    try {
+        const visit = await Visit.create(visitInfo);
+        res.status(201).json({"message": "Successful", "data":visit});
+    } catch (error) {
+        next(error);
+    }
+
+}
+
+async function getVisit(req, res, next) {
+    try {
+        const visit = await Visit.findAll({
+            where: {
+              user_id: req.params.id
+            }
+          });
+        res.json({"message": "Successful", "data":visit})
+    } catch (err) {
+        next(err)
+    }
+}
+
+
+
 
 module.exports = {
     checkUserRank,
@@ -193,5 +223,7 @@ module.exports = {
     logoutUser: [checkUserId, logoutUser],
     getDonations: [checkUserRank, getDonations],
     addDonation: [checkUserId, addDonation],
-    getUserByIdDonation: [checkUserId, getUserByIdDonation]
+    getUserByIdDonation: [checkUserId, getUserByIdDonation],
+    addVisit: [checkUserId, addVisit],
+    getVisit: [checkUserId, getVisit]
 }
