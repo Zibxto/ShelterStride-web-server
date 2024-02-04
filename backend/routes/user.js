@@ -14,6 +14,8 @@ userRouter.post('/:id/donation', userController.addDonation);
 userRouter.get('/:id/donation', userController.getUserByIdDonation);
 userRouter.post('/:id/visit', userController.addVisit);
 userRouter.get('/:id/visit', userController.getVisit);
+userRouter.post('/:id/subscription', userController.addSubscription);
+userRouter.get('/:id/subscription', userController.getSubscription);
 
 signupRouter.post('/', userController.addUser);
 donationRouter.get('/', userController.getDonations);

@@ -4,6 +4,7 @@ const db = require('../models');
 const User = db.users
 const Donation = db.donations
 const Visit = db.shedulevisits
+const Subscription = db.subscriptions
 
 // Middleware function to check user rank
 async function checkUserRank(req, res, next) {
@@ -161,7 +162,6 @@ async function addDonation(req, res, next) {
 
 async function getDonations(req, res, next) {
     try {
-        console.log(req.body)
         const donation = await Donation.findAll()
         res.json({"message": "Successful", "data":donation})
     } catch (err) {
@@ -210,7 +210,33 @@ async function getVisit(req, res, next) {
     }
 }
 
+async function addSubscription(req, res, next) {
+    let subscriptionInfo = req.body;
+    subscriptionInfo.user_id = req.user.id;
+    subscriptionInfo.firstname = req.user.firstname;
+    subscriptionInfo.lastname = req.user.lastname;
+    subscriptionInfo.email = req.user.email;
+    try {
+        const subscription = await Subscription.create(subscriptionInfo);
+        res.status(201).json({"message": "Successful", "data":subscription});
+    } catch (error) {
+        next(error);
+    }
 
+}
+
+async function getSubscription(req, res, next) {
+    try {
+        const subscription = await Subscription.findAll({
+            where: {
+              user_id: req.params.id
+            }
+          });
+        res.json({"message": "Successful", "data":subscription})
+    } catch (err) {
+        next(err)
+    }
+}
 
 
 module.exports = {
@@ -225,5 +251,7 @@ module.exports = {
     addDonation: [checkUserId, addDonation],
     getUserByIdDonation: [checkUserId, getUserByIdDonation],
     addVisit: [checkUserId, addVisit],
-    getVisit: [checkUserId, getVisit]
+    getVisit: [checkUserId, getVisit],
+    addSubscription: [checkUserId, addSubscription],
+    getSubscription: [checkUserId, getSubscription]
 }

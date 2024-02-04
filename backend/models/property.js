@@ -65,8 +65,11 @@ module.exports = (sequelize) => {
         house_rules: {
             type: DataTypes.STRING,
             allowNull: true
+        },
+        subscription_fee: {
+            type: DataTypes.STRING,
+            allowNull: true
         }
-
     });
 
     return Property;

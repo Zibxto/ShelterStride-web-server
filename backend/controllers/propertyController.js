@@ -7,7 +7,7 @@ const Property = db.properties
 // Add a new house
 const addProperty = async (req, res) => {
     try {
-      const { name, price, address, bathroom_num, bedroom_num, location, toilet_num, furniture_num, description, key_attraction, amenities, house_rules } = req.body;
+      const { name, price, address, bathroom_num, bedroom_num, location, toilet_num, furniture_num, description, key_attraction, amenities, house_rules, subscription_fee } = req.body;
       const imagePath = req.file ? req.file.path : ''; // Save the image path or URL
   
       const newProperty = await Property.create({
@@ -23,6 +23,7 @@ const addProperty = async (req, res) => {
         key_attraction,
         amenities,
         house_rules,
+        subscription_fee,
         image: imagePath,
       });
       if (newProperty)
