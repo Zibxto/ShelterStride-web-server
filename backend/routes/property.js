@@ -21,5 +21,7 @@ const storage = multer.diskStorage({
 propertyRouter.get('/', propertyController.getProperties);
 propertyRouter.get('/:id', propertyController.getPropertyById);
 propertyRouter.post('/', upload.single('image'), propertyController.addProperty);
+propertyRouter.put('/:id', upload.single('image'), propertyController.updateProperty);
+propertyRouter.delete('/:id', propertyController.deleteProperty);
 
 module.exports = { propertyRouter };

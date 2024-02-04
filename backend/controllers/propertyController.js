@@ -7,7 +7,7 @@ const Property = db.properties
 // Add a new house
 const addProperty = async (req, res) => {
     try {
-      const { name, price, address, bathroom_num, bedroom_num, location } = req.body;
+      const { name, price, address, bathroom_num, bedroom_num, location, toilet_num, furniture_num, description, key_attraction, amenities, house_rules } = req.body;
       const imagePath = req.file ? req.file.path : ''; // Save the image path or URL
   
       const newProperty = await Property.create({
@@ -17,6 +17,12 @@ const addProperty = async (req, res) => {
         bathroom_num,
         bedroom_num,
         location,
+        toilet_num,
+        furniture_num,
+        description,
+        key_attraction,
+        amenities,
+        house_rules,
         image: imagePath,
       });
       if (newProperty)
@@ -58,9 +64,57 @@ const addProperty = async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   };
+
+  async function updateProperty(req, res, next) {
+    try {
+      const property = await Property.findByPk(req.params.id);
+      if (!property) {
+        return res.status(404).json({
+          error: 'Property not found',
+        });
+      }
+  
+      // Handle file upload if a new image is provided
+      if (req.file) {
+        // Update the image field in the database with the new image path
+        property.image = req.file.path;
+      }
+  
+      // Update other fields based on the request body
+      await property.update({
+        ...req.body,
+        image: property.image
+      });
+  
+      res.json({
+        message: 'Property Updated Successfully',
+        data: property,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async function deleteProperty(req, res, next) {
+    try {
+        const property = await Property.findByPk(req.params.id);
+        if (property) {
+            await property.destroy();
+            res.json({"message": "Property Deleted Successfully", "data": property});
+        } else {
+            res.status(404).json({
+                message: 'Property not found'
+            });
+        }
+    } catch (error) {
+        next(error);
+    }
+}
   
   module.exports = {
     addProperty: [checkUserRank, addProperty],
     getProperties: [checkUserRank, getProperties],
-    getPropertyById: [checkUserRank, getPropertyById] 
+    getPropertyById: [checkUserRank, getPropertyById],
+    updateProperty: [checkUserRank, updateProperty],
+    deleteProperty: [checkUserRank, deleteProperty]
   };
