@@ -90,6 +90,10 @@ async function addUser(req, res, next) {
     let userInfo = req.body;
     try {
         const user = await User.create(userInfo);
+    
+        const userAgent = req.headers['user-agent'];
+        console.log(`Request Agent: ${userAgent}`);
+        
         res.status(201).json(user);
     } catch (error) {
         next(error);
