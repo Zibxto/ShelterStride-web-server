@@ -114,8 +114,8 @@ const addProperty = async (req, res) => {
   
   module.exports = {
     addProperty: [checkUserRank, addProperty],
-    getProperties: [checkUserRank, getProperties],
-    getPropertyById: [checkUserRank, getPropertyById],
+    getProperties: [getProperties],
+    getPropertyById: [getPropertyById],
     updateProperty: [checkUserRank, updateProperty],
     deleteProperty: [checkUserRank, deleteProperty]
   };
