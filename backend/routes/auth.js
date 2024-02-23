@@ -30,7 +30,7 @@ authRouter.post(
                         // OR THE USER NEEDS TO LOGIN AGAIN
                         const token = jwt.sign({ user: body }, process.env.JWT_SECRET, { expiresIn: tokenExpire });
 
-                        return res.json({ token });
+                        return res.json({'token': token, 'user': body});
                     }
                 );
             } catch (error) {
